@@ -7,7 +7,7 @@
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
-      "prefix": "app",
+      "prefix": "ng",
       "schematics": {},
       "architect": {
         "build": {
@@ -29,12 +29,10 @@
           },
           "configurations": {
             "production": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
-                }
-              ],
+              "fileReplacements": [{
+                "replace": "src/environments/environment.ts",
+                "with": "src/environments/environment.prod.ts"
+              }],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -121,7 +119,47 @@
           }
         }
       }
+    },
+    "ngx-modal-service": {
+      "root": "projects/ngx-modal-service",
+      "sourceRoot": "projects/ngx-modal-service/src",
+      "projectType": "library",
+      "prefix": "ng",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/ngx-modal-service/tsconfig.lib.json",
+            "project": "projects/ngx-modal-service/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "projects/ngx-modal-service/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ngx-modal-service/src/test.ts",
+            "tsConfig": "projects/ngx-modal-service/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-modal-service/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ngx-modal-service/tsconfig.lib.json",
+              "projects/ngx-modal-service/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
-  "defaultProject": "ng-modal-lib"
+  "defaultProject": "ngx-modal-service-lib"
 }
