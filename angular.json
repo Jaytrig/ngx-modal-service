@@ -7,8 +7,12 @@
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
-      "prefix": "ng",
-      "schematics": {},
+      "prefix": "ngx",
+      "schematics": {
+        "@schematics/angular:component": {
+          "styleext": "scss"
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -23,7 +27,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.scss"
             ],
             "scripts": []
           },
@@ -70,7 +74,7 @@
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
             "styles": [
-              "src/styles.css"
+              "src/styles.scss"
             ],
             "scripts": [],
             "assets": [
@@ -152,6 +156,46 @@
             "tsConfig": [
               "projects/ngx-modal-service/tsconfig.lib.json",
               "projects/ngx-modal-service/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "ngx-content-components": {
+      "root": "projects/ngx-content-components",
+      "sourceRoot": "projects/ngx-content-components/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/ngx-content-components/tsconfig.lib.json",
+            "project": "projects/ngx-content-components/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "projects/ngx-content-components/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ngx-content-components/src/test.ts",
+            "tsConfig": "projects/ngx-content-components/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-content-components/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ngx-content-components/tsconfig.lib.json",
+              "projects/ngx-content-components/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"

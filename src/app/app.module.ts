@@ -2,24 +2,24 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { NgModalModule } from 'ng-modal';
-import { ModalContrService } from './modal-contr.service';
-import { ModalContainerComponent } from './modal-container/modal-container.component';
+import { NgxModalServiceModule } from 'dist/ngx-modal-service';
+import { NgxContentComponentsModule } from 'dist/ngx-content-components';
+import { ConfirmationDialogComponent } from './modals/confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ModalContainerComponent
+    ConfirmationDialogComponent
   ],
   imports: [
     BrowserModule,
-    NgModalModule
+    NgxModalServiceModule,
+    NgxContentComponentsModule
   ],
   providers: [
-    ModalContrService
   ],
   entryComponents: [
-    ModalContainerComponent
+    ConfirmationDialogComponent
   ],
   bootstrap: [AppComponent]
 })

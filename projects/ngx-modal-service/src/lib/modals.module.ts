@@ -11,7 +11,7 @@ import { ViewController, ViewControllerToken } from './utils/view-controller';
 
 @NgModule({
   imports: [
-    CommonModule
+
   ],
   providers: [
     NgxModalController,

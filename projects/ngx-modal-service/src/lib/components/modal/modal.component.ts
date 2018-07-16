@@ -17,38 +17,41 @@ export class ModalComponent implements AfterContentChecked, OnInit {
     @ViewChild('wrapper') wrapper: ElementRef;
     @ViewChild(BackdropComponent) backdrop: BackdropComponent;
 
-    private GUID: string = "";
+    private GUID: string;
     private sub: Subscription;
 
     private _options: any;
     set options(op: any) {
         this._options = op;
     }
-    get options(): any {
-        return this._options;
-    }
 
     get onDismiss(): Promise<NgxModalResponse> {
         return new Promise((resolve, reject) => {
             this.sub = this.ModalEvents.onDismiss.subscribe((result) => {
-                if (result.Guid == this.GUID) {
+                if (result.Guid === this.GUID) {
                     resolve(result.Data);
+                    this.ModalEvents.destory(this.GUID);
                 }
             })
         });
     }
 
-    constructor(private elRef: ElementRef, private renderer: Renderer2, private ModalEvents: ModalEventsService, private viewCtrl: ViewController) {
+    constructor(private renderer: Renderer2, private ModalEvents: ModalEventsService, private viewCtrl: ViewController) {
         this.GUID = this.viewCtrl.GUID;
     }
 
     Backdrop() {
         if (this._options.backdropDismiss && !document.body.classList.contains("lock-modal")) {
-            this.ModalEvents.dismiss(this.GUID, {
-                success: false,
-                data: null
-            });
+            this.dismiss();
         }
+    }
+
+
+    dismiss(data = null) {
+        this.ModalEvents.dismiss(this.GUID, {
+            success: false,
+            data: data
+        });
     }
 
     ngOnInit(): void {

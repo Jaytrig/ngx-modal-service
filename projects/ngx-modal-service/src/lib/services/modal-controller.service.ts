@@ -24,11 +24,11 @@ export class NgxModalController {
     private injector: Injector, rendererFactory: RendererFactory2, private ModalEvent: ModalEventsService) {
     this.renderer = rendererFactory.createRenderer(null, null);
 
-    this.ModalEvent.onDismiss.subscribe((data) => {
-      let modal = this.count[data.Guid];
+    this.ModalEvent.onDestory.subscribe((Guid) => {
+      const modal = this.count[Guid];
       modal.destroy();
 
-      delete this.count[data.Guid];
+      delete this.count[Guid];
 
       if (Object.keys(this.count).length == 0) {
         this.renderer.removeClass(document.body, 'modal-open');
@@ -42,7 +42,6 @@ export class NgxModalController {
     options = { height: 500, width: 500, index: 9000 + Object.keys(this.count).length + 10, backdrop: true, backdropDismiss: true, ...options };
 
     const GUID = this.createGuid();
-
     const factory = this.compFactoryResolver.resolveComponentFactory(Comp);
     const childInjector = Injector.create(getProviders(GUID, data), this.injector);
     const componentRef = factory.create(childInjector);
@@ -54,18 +53,25 @@ export class NgxModalController {
     const container = this.checkWrapper();
     const modal = this.CreateModal(options, childInjector);
 
-    this.count[GUID] = modal;
+    this.count[GUID.toString()] = modal;
 
     const modalEl = this.getHTMLElement(modal);
-
-    const wapperContents = modalEl.querySelector('.modal-wrapper').querySelector('.modal-contents');
+    const wapperContents = modalEl.querySelector('.modal-wrapper');
 
     this.renderer.appendChild(wapperContents, domElement);
-    this.renderer.appendChild(container.querySelector('.modal-wrapper'), modalEl);
+    this.renderer.appendChild(container, modalEl);
 
     this.renderer.addClass(document.body, 'modal-open');
 
     return modal.instance;
+  }
+
+  LockBackdrop() {
+    this.renderer.addClass(document.body, 'lock-modal');
+  }
+
+  UnlockBackdrop() {
+    this.renderer.removeClass(document.body, 'lock-modal');
   }
 
   private checkWrapper() {
@@ -110,5 +116,4 @@ export class NgxModalController {
     }
     )
   }
-
 }

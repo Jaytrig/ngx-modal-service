@@ -1,0 +1,32 @@
+ngx-header {
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: lightgray;
+  border-bottom: 1px solid black;
+}
+
+ngx-body {
+  padding: 20px;
+  text-align: center;
+}
+
+ngx-footer {
+  height: 60px;
+  display: block;
+  background-color: lightgray;
+  border-top: 1px solid black;
+  button {
+    width: 50%;
+    outline: none;
+    border: 0;
+    height: 100%;
+    &:first-child {
+      border-right: 1px solid black;
+    }
+    &:first-child:last-child {
+      border-right: 0;
+    }
+  }
+}
